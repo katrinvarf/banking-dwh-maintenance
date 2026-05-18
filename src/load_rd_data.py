@@ -10,8 +10,8 @@ load_dotenv()
 
 
 RD_TABLES = {
-    "deal_info": "deal_info.csv",
-    "product": "product_info.csv"
+    "deal_info": "data/raw/loan_holiday_info/deal_info.csv",
+    "product": "data/raw/loan_holiday_info/product_info.csv"
 }
 
 
@@ -48,7 +48,7 @@ def create_stage_schema(conn):
 
 def load_to_stage(table_name):
     try:
-        df = pd.read_csv(f"data/raw/loan_holiday_info/{RD_TABLES[table_name]}", delimiter=",", encoding="windows-1251")
+        df = pd.read_csv(RD_TABLES[table_name], delimiter=",", encoding="windows-1251")
         engine = get_engine()
         df.to_sql(table_name, engine, schema="stage", if_exists="replace", index=False)
 
