@@ -61,10 +61,10 @@ def load_to_stage(table_name):
 
 def load_to_rd(conn, table_name):
     try:
-        inserted_rows = execute_sql_file(conn, f"sql/rd/dml/sync_{table_name}.sql")
+        synced_rows = execute_sql_file(conn, f"sql/rd/dml/sync_{table_name}.sql")
         conn.commit()
 
-        return inserted_rows
+        return synced_rows
 
     except Exception as error:
         print(error)
@@ -78,9 +78,9 @@ def main():
 
         for table_name in RD_TABLES:
             stage_rows = load_to_stage(table_name)
-            rd_rows = load_to_rd(conn, table_name)
+            synced_rows = load_to_rd(conn, table_name)
 
-            print(f"{table_name}: stage={stage_rows}, inserted_to_rd={rd_rows}")
+            print(f"{table_name}: stage={stage_rows}, synced={synced_rows}")
 
 
 if __name__ == "__main__":
